@@ -10,41 +10,43 @@ import {
 } from "@mui/material";
 
 import "./styles.css";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 
-export default function Products() {
+export default function Favoritos() {
     const [items, setItems] = React.useState([]);
 
     React.useEffect(() => {
         fetch('http://localhost:8000/produtos')
             .then(res => res.json())
-            .then(dados => setItems(dados));
+            .then(dados => {
+                let favoritos = [];
+                favoritos = dados.filter(function (produto) {
+                    return produto.favorito;
+                });
+                setItems(favoritos);
+            });
             //npx json-server db.json --port 8000
     }, []);
 
-
-    const addProduto = (nome, valor) => {
-        fetch('http://localhost:8000/carrinho', {
-            method: 'POST',
+    const removeFavorito = (produto) => {
+        fetch('http://localhost:8000/produtos', {
+            method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                nome: nome,
-                valor: valor,
-                quantidade: 1
+                id: produto.id,
+                nome: produto.nome,
+                valor: produto.valor,
+                favorito: false
             })
         });
-
-        alert('Pronto');
+    
+        let novoFavoritos = items.filter(function (prod) {
+            return prod.id !== produto.id;
+        });
+        setItems(novoFavoritos);
     };
 
     const CadaProduto = (props) => {
-        let btnFavorito;
-        if (props.favorito) {
-            btnFavorito = <Button align="right" variant="contained" color="success"><Favorite/></Button>        
-        } else {
-            btnFavorito = <Button align="right" variant="contained" color="success"><FavoriteBorder/></Button>
-        }
-
         return (
             <Card style={{marginTop: '10px'}}>
                 <CardActionArea>
@@ -59,8 +61,8 @@ export default function Products() {
                     <Divider/>
                     <div style={{display: 'flex', marginTop: 10, justifyContent: 'space-between'}}>
                         <Typography>R$ {props.valor}</Typography>
-                        {btnFavorito}
-                        <Button onClick={() => addProduto(props.nome, props.valor)} align="right" variant="contained" color="success">Add</Button>
+
+                        <Button onClick={() => removeFavorito(props)} align="right" variant="contained" color="success"><Favorite/></Button>
                     </div>
                 </CardContent>
             </Card>

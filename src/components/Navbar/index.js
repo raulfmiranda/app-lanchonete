@@ -13,7 +13,8 @@ import {useState} from "react";
 import { 
     ShoppingCart, 
     Place, 
-    RestaurantMenu 
+    RestaurantMenu, 
+    Favorite
 } from '@mui/icons-material';
 
 import { useNavigate } from 'react-router-dom';
@@ -54,6 +55,11 @@ export default function Navbar() {
             <ListItem button onClick={() => redirect('/listar')}>
                 <ListItemIcon> <RestaurantMenu/> </ListItemIcon>
                 <ListItemText> Cardapio </ListItemText>
+            </ListItem>
+
+            <ListItem button onClick={() => redirect('/favoritos')}>
+                <ListItemIcon> <Favorite/> </ListItemIcon>
+                <ListItemText> Favoritos </ListItemText>
             </ListItem>
         </List>
       </Drawer>  

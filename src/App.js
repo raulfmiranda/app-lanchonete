@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Carrinho from "./pages/Carrinho"
+import Favoritos from "./pages/Favoritos"
 import FormEndereco from "./pages/FormEndereco"
 import Products from "./pages/Products"
 
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/listar" element={<Products/>} />
           <Route path="/endereco" element={<FormEndereco/>} />
           <Route path="/carrinho" element={<Carrinho/>} />
+          <Route path="/favoritos" element={<Favoritos/>}/>
         </Routes>
       </BrowserRouter>
     </div>
