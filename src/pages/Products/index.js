@@ -37,13 +37,21 @@ export default function Products() {
         alert('Pronto');
     };
 
+    const toggleFavorito = (id, favorito) => {
+        fetch('http://localhost:8000/produtos/' + id, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                favorito: !favorito
+            })
+        });
+    };
+
     const CadaProduto = (props) => {
-        let btnFavorito;
-        if (props.favorito) {
-            btnFavorito = <Button align="right" variant="contained" color="success"><Favorite/></Button>        
-        } else {
-            btnFavorito = <Button align="right" variant="contained" color="success"><FavoriteBorder/></Button>
-        }
+        let btnFavIcon = props.favorito ? <Favorite/> : <FavoriteBorder/>;
+        let btnFavorito = <Button onClick={() => toggleFavorito(props.id, props.favorito)}>
+                {btnFavIcon}
+            </Button>;
 
         return (
             <Card style={{marginTop: '10px'}}>

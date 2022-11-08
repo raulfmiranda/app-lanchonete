@@ -29,13 +29,10 @@ export default function Favoritos() {
     }, []);
 
     const removeFavorito = (produto) => {
-        fetch('http://localhost:8000/produtos', {
+        fetch('http://localhost:8000/produtos/' + produto.id, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                id: produto.id,
-                nome: produto.nome,
-                valor: produto.valor,
                 favorito: false
             })
         });
